@@ -17,8 +17,6 @@ from tensorflow.keras.layers import StringLookup
 
 ratings=pd.read_csv("train.csv")
 
-ratings=ratings[:10000]
-
 """Here, we do some simple data processing to fix the data types of the columns."""
 
 ratings["itemId"] = ratings["itemId"].apply(lambda x: f"item_{x}")
@@ -80,6 +78,8 @@ ratings_data.ratings = ratings_data.ratings.apply(
 )
 
 del ratings_data["timestamps"]
+
+ratings_data=ratings_data[ratings_data["ratings"].str.len() != 0] #remove empty ratings
 
 """After that, we process the output to have each sequence in a separate records in
 the DataFrame. In addition, we join the user features with the ratings data.
@@ -362,15 +362,15 @@ print(f"Test MAE: {round(rmse, 3)}")
 """
 OutPut:
 Epoch 1/5
-17/17 [==============================] - 3s 29ms/step - loss: 0.4947 - mean_absolute_error: 0.5552
+13772/13772 [==============================] - 2155s 156ms/step - loss: 0.8937 - mean_absolute_error: 0.7369
 Epoch 2/5
-17/17 [==============================] - 1s 29ms/step - loss: 0.4662 - mean_absolute_error: 0.5414
+13772/13772 [==============================] - 2170s 158ms/step - loss: 0.8073 - mean_absolute_error: 0.6984
 Epoch 3/5
-17/17 [==============================] - 1s 29ms/step - loss: 0.4362 - mean_absolute_error: 0.5217
+13772/13772 [==============================] - 2255s 164ms/step - loss: 0.7889 - mean_absolute_error: 0.6895
 Epoch 4/5
-17/17 [==============================] - 1s 30ms/step - loss: 0.4059 - mean_absolute_error: 0.5020
+13772/13772 [==============================] - 2141s 155ms/step - loss: 0.7781 - mean_absolute_error: 0.6844
 Epoch 5/5
-17/17 [==============================] - 1s 30ms/step - loss: 0.4030 - mean_absolute_error: 0.4995
-Test MAE: 0.819
+13772/13772 [==============================] - 2114s 153ms/step - loss: 0.7701 - mean_absolute_error: 0.6806
+Test MAE: 0.673
 """
 
